@@ -34,3 +34,5 @@ public class User {
     )
     private Set<Role> roles;
 }
+
+// touch: doc note
