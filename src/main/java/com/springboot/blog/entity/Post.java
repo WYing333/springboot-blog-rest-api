@@ -39,3 +39,5 @@ public class Post {
     @JoinColumn(name = "category_id")
     private Category category;
 }
+
+// touch: doc note
