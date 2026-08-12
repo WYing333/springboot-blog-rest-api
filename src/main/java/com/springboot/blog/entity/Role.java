@@ -19,3 +19,5 @@ public class Role {
     private Long id;
     private String name;
 }
+
+// touch: doc note
