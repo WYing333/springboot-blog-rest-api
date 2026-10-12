@@ -2,6 +2,7 @@ package com.springboot.blog.controller;
 
 import com.springboot.blog.payload.PostDto;
 import com.springboot.blog.payload.PostResponse;
+import com.springboot.blog.repository.PostRepository;
 import com.springboot.blog.service.PostService;
 import com.springboot.blog.utils.AppConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,9 @@ import java.util.List;
 public class PostController {
 
     private PostService postService;
+
+    @Autowired
+    private PostRepository postRepository;
 
     public PostController(PostService postService) {
         this.postService = postService;
@@ -117,6 +122,9 @@ public class PostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id){
 
+        if (!postRepository.existsById(id)) {
+            return new ResponseEntity<>("Post entity not found.", HttpStatus.NOT_FOUND);
+        }
         postService.deletePostById(id);
 
         return new ResponseEntity<>("Post entity deleted successfully.", HttpStatus.OK);
